@@ -1,8 +1,13 @@
-
 #bsodOverlay {
   font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
 }
 
+
+html.bsod-active,
+body.bsod-active {
+  overflow: hidden !important;
+  height: 100% !important;
+}
 
 #resultado:not(.hidden) {
   animation: fadeIn 0.25s ease-out;
