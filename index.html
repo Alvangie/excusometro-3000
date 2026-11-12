@@ -5,11 +5,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Excusómetro 3000 · Generador Táctico de Coartadas</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans selection:bg-emerald-500 selection:text-slate-950">
 
+
+  <div id="bsodOverlay" class="hidden fixed inset-0 z-50 bg-[#0078D7] text-white p-8 md:p-20 flex flex-col justify-center cursor-pointer select-none" title="Hacé clic o presioná ESC para salir">
+    <div class="max-w-3xl mx-auto w-full space-y-6">
+      <div class="text-7xl md:text-8xl font-light">:(</div>
+      <p class="text-xl md:text-2xl font-light leading-relaxed">
+        Se produjo un problema en su PC y necesita reiniciarse. Vamos a recopilar información sobre el error y después se reiniciará automáticamente.
+      </p>
+      <p class="text-xl md:text-2xl font-light">
+        <span id="bsodPorcentaje">14</span>% completado
+      </p>
+      <div class="flex items-center gap-5 pt-4">
+        <div class="w-24 h-24 bg-white p-2 shrink-0 grid grid-cols-5 grid-rows-5 gap-0.5">
+          <div class="bg-[#0078D7] col-span-2 row-span-2"></div>
+          <div class="bg-white"></div>
+          <div class="bg-[#0078D7] col-span-2 row-span-2"></div>
+          <div class="bg-[#0078D7]"></div>
+          <div class="bg-[#0078D7] col-span-2"></div>
+          <div class="bg-white col-span-2"></div>
+          <div class="bg-[#0078D7]"></div>
+          <div class="bg-[#0078D7] col-span-2 row-span-2"></div>
+          <div class="bg-white"></div>
+          <div class="bg-[#0078D7]"></div>
+          <div class="bg-white"></div>
+        </div>
+        <div class="text-xs md:text-sm font-light space-y-1 opacity-90">
+          <p>Para obtener más información acerca de este problema y posibles correcciones, visite https://www.windows.com/stopcode</p>
+          <p class="pt-1 font-mono">Hora del fallo: <span id="bsodHora"></span></p>
+          <p class="font-mono">Código de detención: CRITICAL_PROCESS_DIED_BEFORE_DEADLINE</p>
+        </div>
+      </div>
+      <p class="text-xs opacity-50 pt-8">(Hacé clic en cualquier lado o presioná ESC para volver al Excusómetro)</p>
+    </div>
+  </div>
+
+
   <div class="max-w-4xl mx-auto px-4 py-8">
-    <!-- Header -->
     <header class="text-center mb-8 border-b border-slate-800 pb-6">
       <span class="inline-block bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-xs font-semibold px-3 py-1 rounded-full mb-3 uppercase tracking-wider">
         Pabellón 2 · Vida de Estudiante
@@ -18,19 +53,17 @@
         Excusómetro <span class="text-emerald-400">3000</span>
       </h1>
       <p class="text-slate-400 mt-2 text-sm md:text-base">
-        Ingeniería de coartadas bajo presión con métricas de credibilidad milimétrica y evidencia adjunta.
+        Ingeniería de coartadas bajo presión con credibilidad milimétrica y modo sabotaje de pantalla.
       </p>
     </header>
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-      <!-- Panel de Control (Entrada) -->
       <section class="lg:col-span-5 bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl flex flex-col justify-between">
         <div class="space-y-5">
           <h2 class="text-lg font-bold text-white flex items-center gap-2">
             <span>🎛️</span> Parámetros de Emergencia
           </h2>
 
-          <!-- Destinatario -->
           <div>
             <label class="block text-sm font-medium text-slate-300 mb-2">¿A quién hay que justificarle?</label>
             <select id="destinatario" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500">
@@ -40,7 +73,6 @@
             </select>
           </div>
 
-          <!-- Tipo de situación -->
           <div>
             <label class="block text-sm font-medium text-slate-300 mb-2">¿Qué pasó exactamente?</label>
             <select id="situacion" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500">
@@ -50,7 +82,6 @@
             </select>
           </div>
 
-          <!-- Gravedad -->
           <div>
             <div class="flex justify-between text-sm mb-1">
               <label class="font-medium text-slate-300">Gravedad de la falta</label>
@@ -63,7 +94,6 @@
             </div>
           </div>
 
-          <!-- Desesperación -->
           <div>
             <div class="flex justify-between text-sm mb-1">
               <label class="font-medium text-slate-300">Nivel de desesperación</label>
@@ -78,23 +108,19 @@
         </div>
 
         <button id="btnGenerar" class="mt-6 w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-3 px-4 rounded-xl transition transform active:scale-95 shadow-lg shadow-emerald-500/20 cursor-pointer">
-          ⚡ Generar Coartada + Evidencia
+          Generar Coartada
         </button>
       </section>
 
-      <!-- Panel de Resultados (Salida + Ingrediente Improbable) -->
-      <section class="lg:col-span-7 space-y-6">
-        <!-- Estado inicial vacío -->
+      <section class="lg:col-span-7 space-y-5">
         <div id="placeholder" class="bg-slate-900/50 border border-dashed border-slate-800 rounded-2xl p-10 text-center flex flex-col items-center justify-center h-full">
-          <div class="text-4xl mb-3">🕵️‍♀️</div>
+          <div class="text-4xl mb-3"></div>
           <p class="text-slate-400 text-sm max-w-sm">
-            Configurá tu crisis a la izquierda y apretá el botón para obtener una coartada lista para copiar y su prueba técnica.
+            Configurá tu crisis a la izquierda y apretá el botón para obtener una coartada lista para copiar y activar el modo evidencia.
           </p>
         </div>
 
-        <!-- Resultado generado -->
         <div id="resultado" class="hidden space-y-5">
-          <!-- Ingrediente Improbable: Números absurdamente precisos -->
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div class="bg-slate-900 border border-emerald-500/40 rounded-2xl p-4">
               <p class="text-xs uppercase tracking-wider text-slate-400 font-semibold">Probabilidad de que te crean</p>
@@ -108,7 +134,6 @@
             </div>
           </div>
 
-          <!-- Mensaje listo para copiar -->
           <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5">
             <div class="flex justify-between items-center mb-3">
               <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">💬 Mensaje listo para enviar</span>
@@ -119,145 +144,20 @@
             <p id="textoExcusa" class="text-slate-200 text-sm leading-relaxed bg-slate-950 p-4 rounded-xl border border-slate-800"></p>
           </div>
 
-          <!-- Evidencia Simulada en Vivo -->
-          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5">
-            <div class="flex justify-between items-center mb-3">
-              <span class="text-xs font-bold uppercase tracking-wider text-amber-400">📸 Evidencia técnica adjunta (Hora real)</span>
-              <span id="horaEvidencia" class="text-xs font-mono text-slate-400"></span>
+          <div class="bg-blue-950/40 border border-blue-500/40 rounded-2xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+              <h3 class="text-sm font-bold text-blue-300">💻 ¿Te piden foto de por qué no entregaste?</h3>
+              <p class="text-xs text-slate-400 mt-1">Activá el pantallazo azul en pantalla completa con la hora actual y sacale foto con el celu.</p>
             </div>
-            <div id="evidenciaBox" class="rounded-xl overflow-hidden border border-slate-700 font-mono text-xs p-4 bg-black text-green-400">
-              <!-- Se llena dinámicamente -->
-            </div>
+            <button id="btnBsod" class="shrink-0 bg-[#0078D7] hover:bg-blue-500 text-white font-bold text-xs px-4 py-3 rounded-xl transition shadow-lg shadow-blue-600/20 cursor-pointer">
+              🖥️ Simular Pantallazo Azul
+            </button>
           </div>
         </div>
       </section>
     </div>
   </div>
 
-  <script>
-    const gravedadInput = document.getElementById('gravedad');
-    const desesperacionInput = document.getElementById('desesperacion');
-    const gravedadVal = document.getElementById('gravedadVal');
-    const desesperacionVal = document.getElementById('desesperacionVal');
-
-    gravedadInput.addEventListener('input', () => {
-      gravedadVal.textContent = `${gravedadInput.value} / 10`;
-    });
-
-    desesperacionInput.addEventListener('input', () => {
-      desesperacionVal.textContent = `${desesperacionInput.value} / 10`;
-    });
-
-    const bancoExcusas = {
-      profe: {
-        tarde: [
-          "Hola profe, disculpe la demora. Hubo una falla de señalización en el ramal y quedamos detenidos entre estaciones sin posibilidad de bajar. Ya estoy en camino y entro en silencio para no interrumpir.",
-          "Buenas profe, le aviso que voy unos minutos demorado porque se cortó la fibra óptica de la zona y tuve que salir corriendo a conectarme desde otro punto. Apenas llegue me pongo al día."
-        ],
-        entrega: [
-          "Hola profe, le escribo porque al momento de hacer el push final al repositorio me tiró un conflicto de certificados SSL y se bloqueó el entorno local. Ya estoy terminando de reconstruir el build para subirlo hoy mismo.",
-          "Buenas profe, tuve un fallo crítico en la partición del disco justo antes de exportar la entrega y estoy recuperando el respaldo desde la nube. En breve le comparto el enlace funcional."
-        ],
-        visto: [
-          "Hola profe, disculpe la demora en responder. Estuve sin acceso al correo institucional por una actualización de seguridad en mi dispositivo y recién acabo de sincronizar los mensajes.",
-          "Buenas profe, perdón por responder recién ahora; tuve un inconveniente médico familiar que me obligó a estar desconectado toda la tarde, pero ya retomé todo."
-        ]
-      },
-      grupo: {
-        tarde: [
-          "Chicos perdón!! Se quedó clavado el colectivo por un choque en el acceso y no avanza hace 20 minutos. Arranquen sin mí que apenas baje me sumo directo.",
-          "Gente mil disculpas, se me reinició la compu con una actualización eterna de Windows justo antes de salir/conectarme y no me dejaba apagarla. Ya estoy yendo."
-        ],
-        entrega: [
-          "Chicos no me maten, se me rompió una dependencia local haciendo el último merge y estoy resolviendo el conflicto para no subir código roto. En 25 minutos lo dejo impecable.",
-          "Gente tuve un corte de luz en toda la cuadra justo cuando estaba exportando mi parte, estoy usando los datos del celu para terminar de subir los cambios."
-        ],
-        visto: [
-          "Perdón colgué mal!! Me quedé sin batería en la calle y recién llego a casa a enchufar el teléfono. Ahí leo todo lo que mandaron y me pongo con lo mío.",
-          "Chicos mil perdón por desaparecer, tuve un día caótico con trámites y recién agarro el celular. Ya me pongo al día con el tablero."
-        ]
-      },
-      jefe: {
-        tarde: [
-          "Hola, buen día. Te aviso que voy a demorarme unos minutos en ingresar por una contingencia en el transporte público en mi zona. Ya estoy en tránsito y recupero el tiempo al cierre.",
-          "Buen día, estoy experimentando una intermitencia masiva del proveedor de internet en mi domicilio; ya estoy migrando a red móvil de respaldo para conectarme."
-        ],
-        entrega: [
-          "Hola, te actualizo sobre el entregable: detectamos una inconsistencia de última hora en el entorno de pruebas que requiere validación antes de pasar a producción. Estimo tenerlo resuelto en el próximo bloque.",
-          "Buenas, estoy finalizando la revisión de integridad de los archivos tras un error de sincronización en el servidor remoto. Te envío el link validado apenas complete el check."
-        ],
-        visto: [
-          "Hola, disculpá la demora en el retorno. Estuve en una ventana de mantenimiento sin acceso a notificaciones y recién acabo de visualizar tu mensaje.",
-          "Buenas, perdón por la respuesta tardía; estaba cerrando una incidencia prioritaria sin conexión externa. Ya mismo lo reviso."
-        ]
-      }
-    };
-
-    const evidencias = [
-      (hora) => `
-        <div class="text-red-400 font-bold mb-1">[CRITICAL ERROR 0x80070422] · ${hora}</div>
-        <div class="text-slate-300">fatal: unable to access 'https://github.com/origin/main.git/': Failed to connect to port 443 after 21042 ms: Connection timed out.</div>
-        <div class="text-amber-400 mt-2">>> Reintentando handshake TLS... Fallo de red local detectado.</div>
-      `,
-      (hora) => `
-        <div class="bg-blue-700 text-white p-3 rounded">
-          <div class="text-lg font-bold mb-1">:( Se produjo un problema en su PC</div>
-          <div class="text-xs opacity-90">Estamos recopilando información sobre el error y después se reiniciará automáticamente (42% completado).</div>
-          <div class="text-[11px] mt-2 font-mono">Timestamp: ${hora} | Stop code: KERNEL_DATA_INPAGE_ERROR</div>
-        </div>
-      `,
-      (hora) => `
-        <div class="text-amber-400 font-bold mb-1">⚠️ AVISO DE SERVICIO · RED DE FIBRA ÓPTICA · ${hora}</div>
-        <div class="text-slate-200">Estimado usuario: registramos una degradación masiva de nodos en su sector (Zona Oeste / AMBA). Tiempo estimado de normalización: 120 minutos.</div>
-        <div class="text-slate-400 mt-1">Ticket de incidencia: #AR-${Math.floor(100000 + Math.random() * 900000)}</div>
-      `
-    ];
-
-    document.getElementById('btnGenerar').addEventListener('click', () => {
-      const dest = document.getElementById('destinatario').value;
-      const sit = document.getElementById('situacion').value;
-      const grav = parseInt(gravedadInput.value, 10);
-      const desp = parseInt(desesperacionInput.value, 10);
-
-      // Elegir excusa aleatoria del perfil
-      const opciones = bancoExcusas[dest][sit];
-      const elegida = opciones[Math.floor(Math.random() * opciones.length)];
-
-      // Calcular número absurdamente preciso (Ingrediente Improbable)
-      const base = 94.5 - (grav * 1.85) + (desp * 0.42) + (Math.random() * 1.99);
-      const prob = Math.min(98.76, Math.max(41.18, base)).toFixed(2);
-      const riesgo = (100 - parseFloat(prob)).toFixed(2);
-
-      // Hora actual exacta
-      const ahora = new Date();
-      const horaStr = ahora.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) +
-                      ' · ' + ahora.toLocaleDateString('es-AR');
-
-      // Mostrar en pantalla
-      document.getElementById('placeholder').classList.add('hidden');
-      document.getElementById('resultado').classList.remove('hidden');
-
-      document.getElementById('probCreer').textContent = `${prob.replace('.', ',')} %`;
-      document.getElementById('riesgoRepregunta').textContent = `${riesgo.replace('.', ',')} %`;
-      document.getElementById('textoExcusa').textContent = elegida;
-      document.getElementById('horaEvidencia').textContent = horaStr;
-
-      const evidenciaRandom = evidencias[Math.floor(Math.random() * evidencias.length)];
-      document.getElementById('evidenciaBox').innerHTML = evidenciaRandom(horaStr);
-
-      document.getElementById('consejoExtra').textContent =
-        parseFloat(prob) > 75
-          ? "Alta verosimilitud. Enviar sin emojis."
-          : "Riesgo moderado. Adjuntar la captura de abajo.";
-    });
-
-    document.getElementById('btnCopiar').addEventListener('click', () => {
-      const texto = document.getElementById('textoExcusa').textContent;
-      navigator.clipboard.writeText(texto);
-      const btn = document.getElementById('btnCopiar');
-      btn.textContent = '✅ ¡Copiado!';
-      setTimeout(() => { btn.textContent = '📋 Copiar texto'; }, 2000);
-    });
-  </script>
+  <script src="app.js"></script>
 </body>
 </html>
